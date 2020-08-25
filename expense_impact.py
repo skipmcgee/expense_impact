@@ -4,11 +4,11 @@
 #
 #
 # TLDR: Run this script in the superior OS (Linux, obvi) or the inferior OS (Windows, ugh) when
-# contemplating an annutitized expense (Netflix, Amazon Prime, Cable TV, other recurring service).
+# contemplating a repeated expense (Netflix, Amazon Prime, Cable TV, other recurring service).
 #
 # Written by Skip McGee, 20200824, for DJC2 20.2 AKA "The Looters"
 # The primary purpose of the script is to get folks thinking about the total cost of personal expenses.
-# Annuitized expenses often appear supportable when their total cost is actually absurd.
+# 'Annuitized' expenses often appear supportable when their total cost is actually absurd.
 # For example, look at the total cost of a daily $3.50 coffee - that addiction requires a lot of $!
 # The secondary purpose is to get some repetitions messing around in python & running a script.
 # There are several embedded "goodies" in the script - opportunities for improvement.

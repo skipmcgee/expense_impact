@@ -23,8 +23,8 @@
 #######################################################################################################
 
 
-error_number = 0 # Need to establish this variable value initially so that we can change it later
 
+error_number = 0 # Need to establish this variable value initially so that we can change it later
 
 def expense_input():
   try:
@@ -32,8 +32,8 @@ def expense_input():
     expense = round(float(input("Enter an expense amount in dollars (example - 1.50): $")),2)
   except ValueError:
     print("Error while defining expense, please try again.")
-    error_counter() # Call our error counting function - more on that later.
-    expense_input() # Recursively call the input so the user can re-enter the correct value.
+    error_counter()
+    expense_input()
 
 
 def interval_input():
@@ -47,7 +47,7 @@ def interval_input():
 
 
 def age_input():
-  try: # what is this 'try' syntax? Why use it?
+  try:
     global age
     age = int(input("Enter your current age in years (example - 23): "))
   except ValueError:
@@ -76,8 +76,32 @@ def inflation_input():
     error_counter()
     print("Error while defining inflation rate, please try again.")
     inflation_input()
-
-
+    
+    
+def ret_input():
+try:
+  global ret_age
+  ret_age = round(float(input("Enter your planned retirement age: ")),2)
+  if ret_age == None:
+    ret_age = 62.0
+  ret_age = round((ret_age),2)
+except ValueError:
+  error_counter()
+  print("Error while defining retirement age, please try again.")
+  ret_input()
+  
+  
+def s_w_r():
+try:
+  global swr
+  swr = round(float(input("Enter your projected Safe Withdrawal Rate (example - 3 or 4 percent): ")),2)
+  swr = round((100 / swr),2)
+except ValueError:
+  error_counter()
+  print("Error while defining retirement age, please try again.")
+  s_w_r()
+  
+  
 def input_cleaning():
   try:
     while expense <= 0:
@@ -109,7 +133,7 @@ def input_cleaning():
       inflation_input()
   except:
     error_counter()
-    errors(1) 
+    errors(1)
 
 
 def calcs():
@@ -120,24 +144,24 @@ def calcs():
   global monthly_savings
   global nominal_inflation
   interval_string = ""
-  compounding_years = int(62-age)
+  compounding_years = int(ret_age-age)
   try:
     if interval == 1:
       interval_string = "daily"
-      current_value = (365.25 * expense) * 25
+      current_value = (365.25 * expense) * swr
       current_value = round(current_value,2)
       future_value = current_value * (1 + inflation ** compounding_years)
-    elif interval == 2: # why would you use an 'elif' instead of an 'if' statement?
+    elif interval == 2:
       interval_string = "weekly"
-      current_value = ((expense / 7) * 365.25) * 25
+      current_value = ((expense / 7) * 365.25) * swr
       future_value = current_value * (1 + inflation ** compounding_years)
     elif interval == 3:
       interval_string = "monthly"
-      current_value = (expense * 12) * 25
+      current_value = (expense * 12) * swr
       future_value = current_value * (1 + inflation ** compounding_years)
     elif interval == 4:
       interval_string = "yearly"
-      current_value = expense * 25 
+      current_value = expense * swr
       future_value = current_value * (1 + inflation ** compounding_years)
     current_value = round(current_value,2)
     future_value = round(future_value,2)
@@ -151,8 +175,8 @@ def calcs():
 
 def output():
   first_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {age} years old until death is ${current_value}"
-  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from 62 years old until death is ${future_value}."
-  third_line = f"You would need to save ${monthly_savings} monthly until age 62 to be able to support your {interval_string} ${expense} expense in retirement."
+  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {re_age} years old until death is ${future_value}."
+  third_line = f"You would need to save ${monthly_savings} monthly until age {ret_age} to be able to support your {interval_string} ${expense} expense in retirement."
   print("*****")
   print("Script Output:")
   print(first_line)
@@ -174,41 +198,37 @@ def errors(error=0):
       return print("expense_impact.py ran without errors")
   elif error_number >= 1:
     print("")
-    print(error_number, "error(s) occurred while defining the expense_impact.py script variables.")
+    print(error_number, "Error(s) occurred while defining the expense_impact.py script variables.")
     if error == 1:
       # GOODIE NUMBER 1: what should these error print statements say? Find where / under what conditions they are called and write print
       # statements to enable future troubleshooting.
-      return print("") # first print statement to create
+      return print("Error with the input cleaning function.") # first print statement to create
     elif error == 2:
-      return print("") # second print statement to create
+      return print("Error with the calculation function.") # second print statement to create
     elif error >= 3:
-      return # These options are not needed at this time
+      return
 
 
-# The below main function is a pretty common way of executing code - put the execution into a separate code block or function.
-# Note that python doesn't actually run the code all at once, it makes several passes.
-# This syntax saves the execution of the code until the final pass.
-# One way of reading code is to start with execution and read backwards - instead of just top-bottom, left-right.
-# This often helps when troubleshooting someone else's code...
 def main():
   expense_input()
   interval_input()
   age_input()
   interest_input()
   inflation_input()
+  ret_age()
+  s_w_r()
   calcs()
   output()
-  # GOODIE NUMBER 2: If the below argument did run, what error message would result and why?
+  # GOODIE NUMBER 2: If the below argument did run, what error message would result and why? (NameError - variable/argument conflict)
   # After you figure it out, go ahead and remove the function call "errors(error_number)" below so your error print statements in GOODIE 1 could
   # execute appropriately (this will help in case you have problems with GOODIES 3 & 4)
   # Check out https://problemsolvingwithpython.com/07-Functions-and-Modules/07.07-Positional-and-Keyword-Arguments/
-  errors(error_number)
+  # errors(error_number)
   
 # GOODIE NUMBER 3: What if you wanted to retire at a different age than 62? Can you configure a new user input to allow a different retirement age?
 # GOODIE NUMBER 4: What if you wanted to specify a different Safe Withdrawal Rate other than a yearly 4%? Can you create a new input for the user to be
 # able to specify a SWR?
 
 
-# This statement allows python to call the main function when the script is run directly, otherwise it allows calling parts of the code indirectly. 
 if __name__ == "__main__":
   main()

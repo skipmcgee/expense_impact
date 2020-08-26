@@ -3,27 +3,19 @@
 #######################################################################################################
 #
 #
-# TLDR: Run this script in the superior OS (Linux, obvi) or the inferior OS (Windows, ugh) when
-# contemplating an annutitized expense (Netflix, Amazon Prime, Cable TV, other recurring service).
+# TLDR: Run this script when contemplating an 'annutitized expense' (Netflix, Amazon Prime, 
+# Cable TV, daily coffee, other recurring service).
 #
 # Written by Skip McGee, 20200824, for DJC2 20.2 AKA "The Looters"
-# The primary purpose of the script is to get folks thinking about the total cost of personal expenses.
-# Annuitized expenses often appear supportable when their total cost is actually absurd.
-# For example, look at the total cost of a daily $3.50 coffee - that addiction requires a lot of $!
-# The secondary purpose is to get some repetitions messing around in python & running a script.
-# There are several embedded "goodies" in the script - opportunities for improvement.
-#
-# Directions for running this script in Windows:
-# -Browse to https://www.python.org/downloads/
-# -Download the current version of python and Run (no admin / elevated privilege should be required).
-# -Save this script and right-click "Edit with IDLE". Now you are ready to make changes to the script!
-# -Click Run => Run Module or use the F5 command to run the expense_impact.py
+# Solution script for the "goodies" left in expense_impact.py: adds some functionality and
+# removes comments designed to help a new programmer understand the structure in expense_impact.py.
 #
 #
 #######################################################################################################
 
 
-error_number = 0 # Need to establish this variable value initially so that we can change it later
+error_number = 0 
+
 
 def expense_input():
   try:

@@ -4,11 +4,11 @@
 #
 #
 # TLDR: Run this script in the superior OS (Linux, obvi) or the inferior OS (Windows, ugh) when
-# contemplating a repeated expense (Netflix, Amazon Prime, Cable TV, other recurring service).
+# contemplating an annutitized expense (Netflix, Amazon Prime, Cable TV, other recurring service).
 #
 # Written by Skip McGee, 20200824, for DJC2 20.2 AKA "The Looters"
 # The primary purpose of the script is to get folks thinking about the total cost of personal expenses.
-# 'Annuitized' expenses often appear supportable when their total cost is actually absurd.
+# Annuitized expenses often appear supportable when their total cost is actually absurd.
 # For example, look at the total cost of a daily $3.50 coffee - that addiction requires a lot of $!
 # The secondary purpose is to get some repetitions messing around in python & running a script.
 # There are several embedded "goodies" in the script - opportunities for improvement.
@@ -29,6 +29,7 @@
 
 
 error_number = 0 # Need to establish this variable value initially so that we can change it later
+
 # Define user input as variables for future use within the script
 # Using different functions here allows for independent calls or granular error checking
 def expense_input():
@@ -64,8 +65,8 @@ def age_input():
 def interest_input():
   try:
     global interest_rate
-    interest_rate = round(float(input("Enter your projected/anticipated interest rate until age 60 (example - 5 or 6 percent: ")),2)
-    interest_rate = round((interest_rate / 100) + 1,2)
+    interest_rate = round(float(input("Enter your projected/anticipated after-tax real interest rate until age 60 (example - 5 or 6 percent: ")),2)
+    interest_rate = round((interest_rate / 100),2)
   except ValueError:
     error_counter()
     print("Error while defining interest rate, please try again.")
@@ -76,7 +77,7 @@ def inflation_input():
   try:
     global inflation
     inflation = round(float(input("Enter your best guess at your projected inflation rate until age 60 (example - 2 or 3 percent): ")),2)
-    inflation = round((inflation / 100) + 1,2)
+    inflation = round((inflation / 100),2)
   except ValueError:
     error_counter()
     print("Error while defining inflation rate, please try again.")
@@ -123,48 +124,59 @@ def input_cleaning():
 def calcs():
 # Why do we need global variables here? Check out this description of python scopes if you would like a quick review:
 # https://www.w3schools.com/python/python_scope.asp
-  global current_value
-  global future_value
-  global interval_string
-  interval_string = ""
 # Here are the actual calculations the script is running.
 # Note that one assumption is a Safe Withdrawal Rate of 4% yearly (equal to 25 x the yearly expense). This SWR is based on the Trinity Study which
 # can be found at https://www.bogleheads.org/wiki/Safe_withdrawal_rates.
 # Another assumption is that retirement age is 62... (See GOODIE #3)
+  global current_value
+  global future_value
+  global interval_string
+  global compounding_years
+  global monthly_savings
+  global nominal_inflation
+  interval_string = ""
+  compounding_years = int(62-age)
   try:
     if interval == 1:
       interval_string = "daily"
       current_value = (365.25 * expense) * 25
-      future_value = current_value * (1 + ((interest_rate - inflation) * (62-age)))
+      current_value = round(current_value,2)
+      future_value = current_value * (1 + inflation ** compounding_years)
     elif interval == 2: # why would you use an 'elif' instead of an 'if' statement?
       interval_string = "weekly"
       current_value = ((expense / 7) * 365.25) * 25
-      future_value = current_value * (1 + ((interest_rate - inflation) * (62-age)))
+      future_value = current_value * (1 + inflation ** compounding_years)
     elif interval == 3:
       interval_string = "monthly"
       current_value = (expense * 12) * 25
-      future_value = current_value * (1 + ((interest_rate - inflation) * (62-age)))
+      future_value = current_value * (1 + inflation ** compounding_years)
     elif interval == 4:
       interval_string = "yearly"
       current_value = expense * 25 
-      future_value = current_value * (1 + ((interest_rate - inflation) * (62-age)))
+      future_value = current_value * (1 + inflation ** compounding_years)
     current_value = round(current_value,2)
     future_value = round(future_value,2)
+    nominal_inflation = (interest_rate + inflation + (interest_rate * inflation))
+    monthly_savings = round(((((interest_rate/12) * future_value) / (1 + (interest_rate/12)**compounding_years) - 1)),2)
+    print(monthly_savings)
   except:
     error_counter()
     errors(2)
-
+    
 
 # We keep the script results in a separate function to enable troubleshooting. Do we need an error checker here?
 def output():
-  # Note the f-string syntax that entered with python3.2ish and how easy it is to print a variable value.
+  # Note the f-string syntax that entered with python3.6ish and how easy it is to print a variable value.
   first_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {age} years old until death is ${current_value}"
-  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from 62 years old until death is ${future_value}"
+  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from 62 years old until death is ${future_value}."
+  third_line = f"You would need to save ${monthly_savings} monthly until age 62 to be able to support your {interval_string} ${expense} expense in retirement."
   print("*****")
   print("Script Output:")
   print(first_line)
   print(second_line)
   print("*****") # these print shenanigans just make the output look a bit cooler since the script is so simple.
+  print(third_line)
+  print("*****")
 
 
 # Now for the errors functions - we want to know if we had any issues, and if there was a problem, where in the script we should start looking.

@@ -195,7 +195,7 @@ def errors(error=0):
   if error_number == 0:
     if error == 0:
       print("")
-      return print("expense_impact.py ran without errors")
+      return print("expense_impact-solution.py ran without errors")
   elif error_number >= 1:
     print("")
     print(error_number, "Error(s) occurred while defining the expense_impact.py script variables.")

@@ -23,15 +23,9 @@
 #######################################################################################################
 
 
-# import statements for requred python modules would go here if needed
-# import numpy
-# import math
-
-
 error_number = 0 # Need to establish this variable value initially so that we can change it later
 
-# Define user input as variables for future use within the script
-# Using different functions here allows for independent calls or granular error checking
+
 def expense_input():
   try:
     global expense 
@@ -84,8 +78,6 @@ def inflation_input():
     inflation_input()
 
 
-# Now we want to ensure that the variables that we defined are actually usable input.
-# There are a lot of values that wouldn't be useable or make sense, so let's scrub those out.
 def input_cleaning():
   try:
     while expense <= 0:
@@ -115,19 +107,12 @@ def input_cleaning():
     while inflation >= 5:
       print("Please enter an inflation rate less than 500%")
       inflation_input()
-# Generally not good practice to have generic "except" statements without identifying the specific expected error
   except:
     error_counter()
-    errors(1) # Note the first call of the errors function with a parameter.
+    errors(1) 
 
 
 def calcs():
-# Why do we need global variables here? Check out this description of python scopes if you would like a quick review:
-# https://www.w3schools.com/python/python_scope.asp
-# Here are the actual calculations the script is running.
-# Note that one assumption is a Safe Withdrawal Rate of 4% yearly (equal to 25 x the yearly expense). This SWR is based on the Trinity Study which
-# can be found at https://www.bogleheads.org/wiki/Safe_withdrawal_rates.
-# Another assumption is that retirement age is 62... (See GOODIE #3)
   global current_value
   global future_value
   global interval_string
@@ -164,9 +149,7 @@ def calcs():
     errors(2)
     
 
-# We keep the script results in a separate function to enable troubleshooting. Do we need an error checker here?
 def output():
-  # Note the f-string syntax that entered with python3.6ish and how easy it is to print a variable value.
   first_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {age} years old until death is ${current_value}"
   second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from 62 years old until death is ${future_value}."
   third_line = f"You would need to save ${monthly_savings} monthly until age 62 to be able to support your {interval_string} ${expense} expense in retirement."
@@ -174,19 +157,16 @@ def output():
   print("Script Output:")
   print(first_line)
   print(second_line)
-  print("*****") # these print shenanigans just make the output look a bit cooler since the script is so simple.
+  print("*****")
   print(third_line)
   print("*****")
 
 
-# Now for the errors functions - we want to know if we had any issues, and if there was a problem, where in the script we should start looking.
-# This counter function keeps track of how many errors we had.
 def error_counter():
   global error_number
   error_number += 1
 
 
-# This error function is a crude but effective way of identifying the location of an error.
 def errors(error=0):
   if error_number == 0:
     if error == 0:

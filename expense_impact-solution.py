@@ -23,7 +23,6 @@
 #######################################################################################################
 
 
-
 error_number = 0 # Need to establish this variable value initially so that we can change it later
 
 def expense_input():
@@ -95,6 +94,8 @@ def s_w_r():
 try:
   global swr
   swr = round(float(input("Enter your projected Safe Withdrawal Rate (example - 3 or 4 percent): ")),2)
+  if swr == None:
+    swr = 4
   swr = round((100 / swr),2)
 except ValueError:
   error_counter()
@@ -131,6 +132,18 @@ def input_cleaning():
     while inflation >= 5:
       print("Please enter an inflation rate less than 500%")
       inflation_input()
+    while swr >= 10:
+      print("Please enter a realistic SWR under 10%")
+      s_w_r()
+    while swr <= 0:
+      print("Please enter a realistic SWR greater than 0")
+      s_w_r()
+    while ret_age >= 110:
+      print("Please enter a realistic retirement age less than 110")
+      ret_input()
+    while ret_age <= 18:
+      print("Please enter a realistic retirement age greater than 18")
+      ret_input()
   except:
     error_counter()
     errors(1)
@@ -140,9 +153,7 @@ def calcs():
   global current_value
   global future_value
   global interval_string
-  global compounding_years
   global monthly_savings
-  global nominal_inflation
   interval_string = ""
   compounding_years = int(ret_age-age)
   try:
@@ -224,6 +235,7 @@ def main():
   # execute appropriately (this will help in case you have problems with GOODIES 3 & 4)
   # Check out https://problemsolvingwithpython.com/07-Functions-and-Modules/07.07-Positional-and-Keyword-Arguments/
   # errors(error_number)
+  
   
 # GOODIE NUMBER 3: What if you wanted to retire at a different age than 62? Can you configure a new user input to allow a different retirement age?
 # GOODIE NUMBER 4: What if you wanted to specify a different Safe Withdrawal Rate other than a yearly 4%? Can you create a new input for the user to be

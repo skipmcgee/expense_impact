@@ -131,9 +131,7 @@ def calcs():
   global current_value
   global future_value
   global interval_string
-  global compounding_years
   global monthly_savings
-  global nominal_inflation
   interval_string = ""
   compounding_years = (62-age)
   try:

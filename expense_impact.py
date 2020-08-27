@@ -135,27 +135,25 @@ def calcs():
   global monthly_savings
   global nominal_inflation
   interval_string = ""
-  compounding_years = int(62-age)
+  compounding_years = (62-age)
   try:
     if interval == 1:
       interval_string = "daily"
       current_value = (365.25 * expense) * 25
       current_value = round(current_value,2)
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     elif interval == 2: # why would you use an 'elif' instead of an 'if' statement?
       interval_string = "weekly"
       current_value = ((expense / 7) * 365.25) * 25
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * (1 + inflation ** compounding_years),2)
     elif interval == 3:
       interval_string = "monthly"
       current_value = (expense * 12) * 25
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     elif interval == 4:
       interval_string = "yearly"
       current_value = expense * 25 
-      future_value = current_value * (1 + inflation ** compounding_years)
-    current_value = round(current_value,2)
-    future_value = round(future_value,2)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     nominal_inflation = (interest_rate + inflation + (interest_rate * inflation))
     monthly_savings = round(((((interest_rate/12) * future_value) / (1 + (interest_rate/12)**compounding_years) - 1)),2)
     print(monthly_savings)

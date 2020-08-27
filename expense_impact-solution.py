@@ -73,8 +73,6 @@ def ret_input():
   try:
     global ret_age
     ret_age = round(float(input("Enter your planned retirement age: ")),2)
-    if ret_age == None:
-      ret_age = 62.0
     ret_age = round((ret_age),2)
   except ValueError:
     error_counter()
@@ -86,8 +84,6 @@ def s_w_r():
   try:
     global swr
     swr = round(float(input("Enter your projected Safe Withdrawal Rate (example - 3 or 4 percent): ")),2)
-    if swr == None:
-      swr = 4
     swr = round((100 / swr),2)
   except ValueError:
     error_counter()

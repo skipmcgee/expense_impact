@@ -70,29 +70,29 @@ def inflation_input():
     
     
 def ret_input():
-try:
-  global ret_age
-  ret_age = round(float(input("Enter your planned retirement age: ")),2)
-  if ret_age == None:
-    ret_age = 62.0
-  ret_age = round((ret_age),2)
-except ValueError:
-  error_counter()
-  print("Error while defining retirement age, please try again.")
-  ret_input()
+  try:
+    global ret_age
+    ret_age = round(float(input("Enter your planned retirement age: ")),2)
+    if ret_age == None:
+      ret_age = 62.0
+    ret_age = round((ret_age),2)
+  except ValueError:
+    error_counter()
+    print("Error while defining retirement age, please try again.")
+    ret_input()
   
   
 def s_w_r():
-try:
-  global swr
-  swr = round(float(input("Enter your projected Safe Withdrawal Rate (example - 3 or 4 percent): ")),2)
-  if swr == None:
-    swr = 4
-  swr = round((100 / swr),2)
-except ValueError:
-  error_counter()
-  print("Error while defining retirement age, please try again.")
-  s_w_r()
+  try:
+    global swr
+    swr = round(float(input("Enter your projected Safe Withdrawal Rate (example - 3 or 4 percent): ")),2)
+    if swr == None:
+      swr = 4
+    swr = round((100 / swr),2)
+  except ValueError:
+    error_counter()
+    print("Error while defining retirement age, please try again.")
+    s_w_r()
   
   
 def input_cleaning():
@@ -147,30 +147,27 @@ def calcs():
   global interval_string
   global monthly_savings
   interval_string = ""
-  compounding_years = int(ret_age-age)
+  compounding_years = (ret_age-age)
   try:
     if interval == 1:
       interval_string = "daily"
       current_value = (365.25 * expense) * swr
       current_value = round(current_value,2)
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     elif interval == 2:
       interval_string = "weekly"
       current_value = ((expense / 7) * 365.25) * swr
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     elif interval == 3:
       interval_string = "monthly"
       current_value = (expense * 12) * swr
-      future_value = current_value * (1 + inflation ** compounding_years)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     elif interval == 4:
       interval_string = "yearly"
       current_value = expense * swr
-      future_value = current_value * (1 + inflation ** compounding_years)
-    current_value = round(current_value,2)
-    future_value = round(future_value,2)
+      future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     nominal_inflation = (interest_rate + inflation + (interest_rate * inflation))
     monthly_savings = round(((((interest_rate/12) * future_value) / (1 + (interest_rate/12)**compounding_years) - 1)),2)
-    print(monthly_savings)
   except:
     error_counter()
     errors(2)
@@ -178,7 +175,7 @@ def calcs():
 
 def output():
   first_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {age} years old until death is ${current_value}"
-  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {re_age} years old until death is ${future_value}."
+  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {ret_age} years old until death is ${future_value}."
   third_line = f"You would need to save ${monthly_savings} monthly until age {ret_age} to be able to support your {interval_string} ${expense} expense in retirement."
   print("*****")
   print("Script Output:")
@@ -218,7 +215,7 @@ def main():
   age_input()
   interest_input()
   inflation_input()
-  ret_age()
+  ret_input()
   s_w_r()
   calcs()
   output()

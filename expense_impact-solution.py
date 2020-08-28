@@ -171,8 +171,8 @@ def calcs():
 
 def output():
   first_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {age} years old until death is ${current_value}"
-  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense from {ret_age} years old until death is ${future_value}."
-  third_line = f"You would need to save ${monthly_savings} monthly until age {ret_age} to be able to support your {interval_string} ${expense} expense in retirement."
+  second_line = f"The amount of money that you would need to fund a {interval_string} ${expense} expense (in current dollars) from {ret_age} years old until death is ${future_value}(in future dollars)."
+  third_line = f"You would need to save ${monthly_savings} monthly until age 62 to be able to support your {interval_string} ${expense} expense (in current dollars) in retirement."
   print("*****")
   print("Script Output:")
   print(first_line)

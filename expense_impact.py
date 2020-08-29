@@ -115,7 +115,7 @@ def input_cleaning():
     while inflation >= 5:
       print("Please enter an inflation rate less than 500%")
       inflation_input()
-# Generally not good practice to have generic "except" statements without identifying the specific expected error
+# Notice the generic catch-all "except" statements doesn't identify the specific expected error
   except:
     error_counter()
     errors(1) # Note the first call of the errors function with a parameter.

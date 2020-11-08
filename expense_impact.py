@@ -153,8 +153,7 @@ def calcs():
       current_value = expense * 25 
       future_value = round(current_value * ((1 + inflation) ** compounding_years),2)
     nominal_inflation = (interest_rate + inflation + (interest_rate * inflation))
-    monthly_savings = round(((((interest_rate/12) * future_value) / (1 + (interest_rate/12)**compounding_years) - 1)),2)cccccclknkrdnrlehbvgrbdtbicedcbtvvuuefkrbngc
-    cccccclknkrdhugtunibnivgdlurucbhnthibebilliv
+    monthly_savings = round(((((interest_rate/12) * future_value) / (1 + (interest_rate/12)**compounding_years) - 1)),2)
     
   except:
     error_counter()
